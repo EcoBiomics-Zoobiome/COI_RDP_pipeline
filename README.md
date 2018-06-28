@@ -4,7 +4,7 @@ This repository outlines how Illumina MiSeq COI metabarcodes are processed by Te
 
 ## How to cite
 
-If you use this dataflow, please cite the CO1 classifier paper (Porter & Hajibabaei, 2018 Sci Rep) and providing a link to this page https://github.com/EcoBiomics-Zoobiome/SCVUC_COI_metabarcode_pipeline in your publication.
+If you use this dataflow or any of the provided scripts, consider citing the CO1 classifier paper (Porter & Hajibabaei, 2018 Sci Rep) if you use it and provide a link to this page https://github.com/EcoBiomics-Zoobiome/SCVUC_COI_metabarcode_pipeline in your publication.
 
 ## Outline
 
