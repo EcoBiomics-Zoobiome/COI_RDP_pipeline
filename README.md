@@ -11,6 +11,7 @@ This repository outlines how Illumina MiSeq COI metabarcodes were processed for 
 [Part V - Dereplication](#part-v---dereplication)  
 [Part VI - Denoising](#part-vi---denoising)  
 [Part VII - Taxonomic assignment](#part-vii---taxonomic-assignment)
+[Implementation notes](#implementation-notes)
 
 ## Part I - File name cleanup
 
@@ -88,6 +89,31 @@ perl add_abundance_to_rdp_out3.plx cat.denoised.table cat.denoised.out
 ```
 
 I like to use the MINIMUM recommended cutoffs for bootstrap support values according to fragment size and rank described in Porter & Hajibabaei, 2018 Sci Rep.  Use your own judgement as to whether these should be increased according to how well represented your target taxa are in the reference set.  This can be determined by exploring the original reference files used to train the classifier that is also available at https://github.com/terrimporter/CO1Classifier/releases .
+
+## Implementation notes
+
+To keep the dataflow here as clear as possible, I have ommitted file renaming and clean-up steps.  I also use shortcuts to link to scripts as described above in numerous places.  This is only helpful if you will be running this pipeline often.  I describe, in general, how I like to do this here:
+
+### Batch renaming of files
+
+Note that this is Perl-rename not linux rename that is available at https://github.com/subogero/rename.  I prefer the perl implementation so that you can easily use regular expressions.  I first run the command with the -n flag so you can review the changes without making any actual changes.  If you're happy with the results, re-run without the -n flag.
+
+```linux
+rename -n 's/PATTERN/NEW PATTERN/g' *.gz
+```
+
+### File clean-up
+
+At every step, I place outfiles into their own directory, then cd into that directory.  I also delete any extraneous outfiles that may have been generated but are not used in subsequent steps to save disk space.
+
+### Symbolic links
+
+Instead of continually traversing nested directories to get to files, I create symbolic links to target directories in a top level directory.  Symbolic links can also be placed in your ~/bin directory that point to scripts that reside elsewhere on your system.  So long as those scripts are executable (e.x. chmod 755 script.plx) then the shortcut will also be executable without having to type out the complete path or copy and pasting the script into the current directory.
+
+```linux
+ln -s /path/to/target/directory shortcutName
+ln -s /path/to/script/script.sh commandName
+```
 
 ## Acknowledgements
 
