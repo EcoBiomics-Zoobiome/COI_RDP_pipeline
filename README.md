@@ -10,7 +10,7 @@ This repository outlines how Illumina MiSeq COI metabarcodes were processed for 
 [Part IV - Primer trimming](#part-iv---primer-trimming)  
 [Part V - Dereplication](#part-v---dereplication)  
 [Part VI - Denoising](#part-vi---denoising)  
-[Part VII - Taxonomic assignment](#part-vii---taxonomic-assignment)
+[Part VII - Taxonomic assignment](#part-vii---taxonomic-assignment)  
 [Implementation notes](#implementation-notes)
 
 ## Part I - File name cleanup
