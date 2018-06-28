@@ -1,6 +1,6 @@
 # README
 
-This repository outlines how Illumina MiSeq COI metabarcodes are processed by Teresita M. Porter. SCVUC refers to the programs, algorithms, and reference datasets used in this data flow: **S**EQPREP, **C**UTADAPT, **V**SEARCH, **U**NOISE, **C**OI classifier.
+This repository outlines how Illumina MiSeq COI metabarcodes are processed by Teresita M. Porter. **SCVUC** refers to the programs, algorithms, and reference datasets used in this data flow: **S**EQPREP, **C**UTADAPT, **V**SEARCH, **U**NOISE, **C**OI classifier.
 
 ## Outline
 
