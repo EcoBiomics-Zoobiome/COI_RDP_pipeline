@@ -2,7 +2,7 @@
 
 This repository outlines how Illumina MiSeq COI metabarcodes are processed by Teresita M. Porter. **SCVUC** refers to the programs, algorithms, and reference datasets used in this data flow: **S**EQPREP, **C**UTADAPT, **V**SEARCH, **U**NOISE, **C**OI classifier. 
 
-This data flow has been developed in a modular fashion for easier updating as methods change and improve over time.  It will be updated on a regular basis so check the 'release' tab above for the latest version.
+This data flow has been developed in a modular fashion for easier updating as methods change and improve over time.  It will be updated on a regular basis so check for the latest version at https://github.com/EcoBiomics-Zoobiome/SCVUC_COI_metabarcode_pipeline/releases .
 
 ## How to cite
 
