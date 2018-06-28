@@ -69,7 +69,7 @@ read_count_uniques
 
 ## Part VI - Denoising
 
-I denoise the reads using USEARCH with the UNOISE2 algorithm (Edgar, 2016) available at https://www.drive5.com/usearch/ .  With this program, denoising involves removing sequences with putative sequencing errors, PhiX sequences, putative chimeric sequences, as well as low frequency reads (just singletons and doubletons here).  This step can take quite a while to run for large files and I like to submit as a job on its own or use linux screen when working interactively so that I can detach the screen.  I get ESV stats using stats_denoised that links to run_fastastats_parallel_denoised.sh.  Therein the command stats links to fasta_stats_parallel.plx .  I get a count of reads retained in ESVs using the read_count_denoised command that links to get_read_counts_denoised.sh .  I generate an OTU table by mapping the primer-trimmed reads in cat.fasta to the ESVs in cat.denoised using an identity cutoff of 1.0 .
+I denoise the reads using USEARCH with the UNOISE2 algorithm (Edgar, 2016) available at https://www.drive5.com/usearch/ .  With this program, denoising involves removing sequences with putative sequencing errors, PhiX sequences, putative chimeric sequences, as well as low frequency reads (just singletons and doubletons here).  This step can take quite a while to run for large files and I like to submit as a job on its own or use linux screen when working interactively so that I can detach the screen.  I get ESV stats using stats_denoised that links to run_fastastats_parallel_denoised.sh.  Therein the command stats links to fasta_stats_parallel.plx .  I get a count of reads retained in ESVs using the read_count_denoised command that links to get_read_counts_denoised.sh .  I generate an ESV/OTU table by mapping the primer-trimmed reads in cat.fasta to the ESVs in cat.denoised using an identity cutoff of 1.0 .
 
 ```linux
 usearch -unoise2 cat.uniques -fastaout cat.denoised -minampsize 3 > log
@@ -80,14 +80,17 @@ usearch -usearch_global cat.fasta -db cat.denoised -strand plus -id 1.0 -otutabo
 
 ## Part VII - Taxonomic assignment
 
-I make taxonomic assignments using the RDP Classifier (Wang et al., 2007) available at https://sourceforge.net/projects/rdp-classifier/ .  I use this with the COI reference set (Porter & Hajibabaei, 2018 Sci Rep) available at https://github.com/terrimporter/CO1Classifier/releases .  This step can take a while depending on the filesize so I like to submit this as a job on its own or using Linux screen so that I can safely detach the session while it is running.  I like to use the recommended minimum bootstrap proportion cutoffs to filter for good qualitity taxonomic assignments.  Use your own good judgement to decide whether the recommended cutoffs should be increased according to how well your target taxa are represented in the reference set.
+I make taxonomic assignments using the RDP Classifier (Wang et al., 2007) available at https://sourceforge.net/projects/rdp-classifier/ .  I use this with the COI files ready to be used with the classiier (Porter & Hajibabaei, 2018 Sci Rep) available at https://github.com/terrimporter/CO1Classifier/releases .  This step can take a while depending on the filesize so I like to submit this as a job on its own or using Linux screen so that I can safely detach the session while it is running.  I like to map read number from the ESV/OTU table to the taxonomic assignments using the add_abundance_to_rdp_out3.plx script.
 
 ```linux
 java -Xmx8g -jar /path/to/rdp_classifier_2.12/dist/classifier.jar classify -t /path/to/rRNAClassifier.properties -o cat.denoised.out cat.denoised
+perl add_abundance_to_rdp_out3.plx cat.denoised.table cat.denoised.out
 ```
+
+I like to use the MINIMUM recommended cutoffs for bootstrap support values according to fragment size and rank described in Porter & Hajibabaei, 2018 Sci Rep.  Use your own judgement as to whether these should be increased according to how well represented your target taxa are in the reference set.  This can be determined by exploring the original reference files used to train the classifier that is also available at https://github.com/terrimporter/CO1Classifier/releases .
 
 ## Acknowledgements
 
 I would like to acknowedge funding from the Canadian government through the Genomics Research and Development Initiative (GRDI) EcoBiomics project.
 
-Last updated: June 27, 2018
+Last updated: June 28, 2018
