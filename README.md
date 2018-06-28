@@ -4,7 +4,7 @@ This repository outlines how Illumina MiSeq COI metabarcodes are processed by Te
 
 ## Outline
 
-[Part I - File name cleanup](#part-i---file-name-cleanup)  
+[Part I - Link to raw files](#part-i---link-to-raw-files)  
 [Part II - Forward and reverse read number check](#part-ii---forward-and-verse-read-number-check)  
 [Part III - Read pairing](#part-iii---read-pairing)   
 [Part IV - Primer trimming](#part-iv---primer-trimming)  
@@ -14,9 +14,9 @@ This repository outlines how Illumina MiSeq COI metabarcodes are processed by Te
 [Implementation notes](#implementation-notes)  
 [References](#references)  
 
-## Part I - File name cleanup
+## Part I - Link to raw files
 
-To save space in my directory, I create symbolic links to the raw .gz files.  The command linkfiles calls the script link_files.sh
+This pipeline is meant to process Illumina paired-end reads from COI metabarcoding.  To save space in my directory, I create symbolic links to the raw .gz files.  The command linkfiles calls the script link_files.sh
 
 ```linux
 linkfiles
