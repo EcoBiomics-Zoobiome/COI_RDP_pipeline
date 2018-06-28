@@ -34,7 +34,7 @@ perl concatenate_gz.plx
 
 ## Part II - Forward and reverse read number check
 
-I make sure that the number of reads in the forward R1 files are the same as those in the reverwe R2 files.  The command gz_stats calls the script run_fastq_gz_stats.sh.  Therein the stats2 command links to the fastq_g_stats.plx script.  The filename suffix that targets R1 and R2 files needs to be supplied as an argument.
+I make sure that the number of reads in the forward R1 files are the same as those in the reverwe R2 files.  The command gz_stats calls the script run_fastq_gz_stats.sh.  Therein the stats2 command links to the fastq_gz_stats.plx script.  The filename suffix that targets R1 and R2 files needs to be supplied as an argument.
 
 ```linux
 gz_stats R1.fq.gz > R1.stats
