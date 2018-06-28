@@ -43,7 +43,7 @@ gz_stats R2.fz.gz > R2.stats
 
 ## Part III - Read pairing
 
-I pair forward and reverse reads using the SEQPREP program available at https://github.com/jstjohn/SeqPrep .  I use the default settings and specify a minimum quality of Phred 20 at the ends of the reads and an overlap of at least 25 bp.  The command pair runs the script xxx.  I check the read stats by running the gz_stats command described in Part II.
+I pair forward and reverse reads using the SEQPREP program available at https://github.com/jstjohn/SeqPrep .  I use the default settings and specify a minimum quality of Phred 20 at the ends of the reads and an overlap of at least 25 bp.  The command pair runs the script runseqprep_gz.sh .  I check the read stats by running the gz_stats command described in Part II.
 
 ```linux
 pair _R1.fq.gz _R2.fq.gz
@@ -63,7 +63,7 @@ fasta_gz_stats gz > Rtrimmed.stats
 
 ## Part V - Dereplication
 
-I prepare the files for dereplication by adding sample names parsed from the filenames to the fasta headers using the rename_all_fastas command that calls the run_rename_fasta.sh.  Therein the rename_fasta command calls the rename_fasta_gzip.polx script.  The results are concatenated and compressed.  The outfile is cat.fasta.gz .  I change all dashes with underscores in the fasta files using vi.  This large file is dereplicated with VSEARCH (Rognes et al., 2016) available at https://github.com/torognes/vsearch .  I use the default settings with the --sizein --sizeout flags to track the number of reads in each cluster.  I get read stats on the unique sequences using the stats_uniques command that calls the run_fastastats_parallel_uniques.sh script.  I count the total number of reads that were processed using the read_count_uniques command that calls the get_read_counts_uniques.sh script.
+I prepare the files for dereplication by adding sample names parsed from the filenames to the fasta headers using the rename_all_fastas command that calls the run_rename_fasta.sh.  Therein the rename_fasta command calls the rename_fasta_gzip.plx script.  The results are concatenated and compressed.  The outfile is cat.fasta.gz .  I change all dashes with underscores in the fasta files using vi.  This large file is dereplicated with VSEARCH (Rognes et al., 2016) available at https://github.com/torognes/vsearch .  I use the default settings with the --sizein --sizeout flags to track the number of reads in each cluster.  I get read stats on the unique sequences using the stats_uniques command that calls the run_fastastats_parallel_uniques.sh script.  Therein the stats command links to fasta_stats_parallel.plx .  I count the total number of reads that were processed using the read_count_uniques command that calls the get_read_counts_uniques.sh script.
 
 ```linux
 rename_all_fastas Rtrimmed.fasta.gz
