@@ -11,7 +11,8 @@ This repository outlines how Illumina MiSeq COI metabarcodes were processed for 
 [Part V - Dereplication](#part-v---dereplication)  
 [Part VI - Denoising](#part-vi---denoising)  
 [Part VII - Taxonomic assignment](#part-vii---taxonomic-assignment)  
-[Implementation notes](#implementation-notes)
+[Implementation notes](#implementation-notes)  
+[References](#references)  
 
 ## Part I - File name cleanup
 
@@ -47,7 +48,7 @@ gz_stats gz > paired.stats
 
 ## Part IV - Primer trimming
 
-I remove primers using the program CUTADAPT (Martin, 2011) available at http://cutadapt.readthedocs.io/en/stable/index.html .  This is a two-step process that first removes forward primers, takes the output, then removes the reverse primers from paired reads.  I run this command with GNU parallel using as many cores as possible.  GNU parallel is available at https://www.gnu.org/software/parallel/ .  The forward primer is trimmed with the -g flag.  I use default settings but require a minimum length after trimming of at least 150 bp, minimum read quality of Phred 20 at the ends of the sequences, and I allow a maximum of 3 N's.  I get read stats by running the gz_stats command described in Part II.  The reverse primer is inidicated with the -a flag and the primer sequence should be reverse-complemented when analyzing paired-reads.  CUTADAPT will automatically detect compressed fastq.gz files for reading and will convert these to .fasta.gz files based on the file extensions provided.  I get read stats by running the fasta_gz_stats command that calls the run_bash_fasta_gz_stats.sh script.  Therein the stats3 command links to the fasta_gz_stats.plx script.
+I remove primers using the program CUTADAPT (Martin, 2011) available at http://cutadapt.readthedocs.io/en/stable/index.html .  This is a two-step process that first removes forward primers, takes the output, then removes the reverse primers from paired reads.  I run this command with GNU parallel using as many cores as possible (Tang, 2011).  GNU parallel is available at https://www.gnu.org/software/parallel/ .  The forward primer is trimmed with the -g flag.  I use default settings but require a minimum length after trimming of at least 150 bp, minimum read quality of Phred 20 at the ends of the sequences, and I allow a maximum of 3 N's.  I get read stats by running the gz_stats command described in Part II.  The reverse primer is inidicated with the -a flag and the primer sequence should be reverse-complemented when analyzing paired-reads.  CUTADAPT will automatically detect compressed fastq.gz files for reading and will convert these to .fasta.gz files based on the file extensions provided.  I get read stats by running the fasta_gz_stats command that calls the run_bash_fasta_gz_stats.sh script.  Therein the stats3 command links to the fasta_gz_stats.plx script.
 
 ```linux
 ls | grep gz | parallel -j 20 "cutadapt -g <INSERT FOWARD PRIMER SEQ>  -m 150 -q 20,20 --max-n=3 --discard-untrimmed -o {}.Ftrimmed.fastq.gz {}"
@@ -96,7 +97,7 @@ To keep the dataflow here as clear as possible, I have ommitted file renaming an
 
 ### Batch renaming of files
 
-Note that this is Perl-rename not linux rename that is available at https://github.com/subogero/rename.  I prefer the perl implementation so that you can easily use regular expressions.  I first run the command with the -n flag so you can review the changes without making any actual changes.  If you're happy with the results, re-run without the -n flag.
+Note that I am using Perl-rename (Gergely, 2018) that is available at https://github.com/subogero/rename not linux rename.  I prefer the Perl implementation so that you can easily use regular expressions.  I first run the command with the -n flag so you can review the changes without making any actual changes.  If you're happy with the results, re-run without the -n flag.
 
 ```linux
 rename -n 's/PATTERN/NEW PATTERN/g' *.gz
@@ -114,6 +115,17 @@ Instead of continually traversing nested directories to get to files, I create s
 ln -s /path/to/target/directory shortcutName
 ln -s /path/to/script/script.sh commandName
 ```
+
+## References
+
+Edgar, R. C. (2016). UNOISE2: improved error-correction for Illumina 16S and ITS amplicon sequencing. BioRxiv. doi:10.1101/081257  
+Gergely, S. (2018, January). Perl-rename. Retrieved from https://github.com/subogero/rename  
+Martin, M. (2011). Cutadapt removes adapter sequences from high-throughput sequencing reads. EMBnet. Journal, 17(1), pp–10.  
+Porter, T. M., & Hajibabaei, M. (2018). Automated high throughput animal CO1 metabarcode classification. Scientific Reports, 8, 4226.  
+Rognes, T., Flouri, T., Nichols, B., Quince, C., & Mahé, F. (2016). VSEARCH: a versatile open source tool for metagenomics. PeerJ, 4, e2584. doi:10.7717/peerj.2584  
+St. John, J. (2016, Downloaded). SeqPrep. Retrieved from https://github.com/jstjohn/SeqPrep/releases  
+Tange, O. (2011). GNU Parallel - The Command-Line Power Tool. ;;Login: The USENIX Magazine, February, 42–47.  
+Wang, Q., Garrity, G. M., Tiedje, J. M., & Cole, J. R. (2007). Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy. Applied and Environmental Microbiology, 73(16), 5261–5267. doi:10.1128/AEM.00062-07  
 
 ## Acknowledgements
 
