@@ -30,7 +30,7 @@ This pipeline is meant to process Illumina paired-end reads from COI metabarcodi
 linkfiles
 ```
 
-If necessary, I concatenate results from the same samples from 2 runs.
+If necessary, I concatenate results from the same samples from 2 runs.  This script expects the read files to be named according to the usual GRDI naming convention.
 
 ```linux
 perl concatenate_gz.plx
