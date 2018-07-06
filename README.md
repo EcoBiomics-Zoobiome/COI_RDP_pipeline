@@ -79,10 +79,11 @@ read_count_uniques
 
 ## Part VI - Denoising
 
-I denoise the reads using USEARCH10 with the UNOISE3 algorithm (Edgar, 2016) available at https://www.drive5.com/usearch/ .  With this program, denoising involves removing sequences with putative sequencing errors, PhiX sequences, putative chimeric sequences, as well as low frequency reads (just singletons and doubletons here).  This step can take quite a while to run for large files and I like to submit as a job on its own or use linux screen when working interactively so that I can detach the screen.  I get ESV stats using stats_denoised that links to run_fastastats_parallel_denoised.sh.  Therein the command stats links to fasta_stats_parallel.plx .  I generate an ESV/OTU table by mapping the primer-trimmed reads in cat.fasta to the ESVs in cat.denoised using an identity cutoff of 1.0 .
+I denoise the reads using USEARCH10 with the UNOISE3 algorithm (Edgar, 2016) available at https://www.drive5.com/usearch/ .  With this program, denoising involves correcting sequences with putative sequencing errors, removing PhiX and putative chimeric sequences, as well as low frequency reads (just singletons and doubletons here).  This step can take quite a while to run for large files and I like to submit as a job on its own or use linux screen when working interactively so that I can detach the screen.  To account for a bug in USEARCH10 the automatically generated 'Zotu' in the FASTA header needs to be changed to 'Otu' for the ESV/OTU table to be generated correctly in the next step.  I get ESV stats using stats_denoised that links to run_fastastats_parallel_denoised.sh.  Therein the command stats links to fasta_stats_parallel.plx .  I generate an ESV/OTU table by mapping the primer-trimmed reads in cat.fasta to the ESVs in cat.denoised using an identity cutoff of 1.0 .
 
 ```linux
 usearch10 -unoise3 cat.uniques -zotus cat.denoised -minsize 3 > log
+vi -c "%s/>Zotu/>Otu/g" -c "wq" cat.denoised
 stats_denoised
 usearch10 -usearch_global cat.fasta -db cat.denoised -strand plus -id 1.0 -otutabout cat.denoised.table
 ```
