@@ -4,7 +4,7 @@
 #stats links to 
 #USAGE sh run_fastastats_parallel_uniques.sh
 
-echo -e sample'\t'numseq'\t'minlength'\t'maxlength'\t'meanlength'\t'modelength'\t'
+echo -e sample'\t'numseq'\t'minlength'\t'maxlength'\t'meanlength'\t'modelength
 
 #ngs-workflow only has 8 cores so don't run more than 7 at a once
 NR_CPUS=10

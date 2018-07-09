@@ -5,7 +5,7 @@
 #be sure to include file extension that targets the fasta.gz files as a command-line argument
 #USAGE sh run_bash_fasta_gz_stats.sh gz
 
-echo -e sample'\t'numseqs'\t'minlength'\t'maxlength'\t'meanlength'\t'modelength
+echo -e sample'\t'numseqs'\t'minlength'\t'maxlength'\t'meanlength'\t'medianlength'\t'modelength
 
 NR_CPUS=20
 count=0
