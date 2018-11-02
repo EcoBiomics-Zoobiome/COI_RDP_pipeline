@@ -90,11 +90,12 @@ vsearch  --usearch_global cat.fasta --db cat.denoised --id 1.0 --otutabout cat.f
 
 ## Part VII - Taxonomic assignment
 
-I make taxonomic assignments using the RDP Classifier (Wang et al., 2007) available at https://sourceforge.net/projects/rdp-classifier/ .  I use this with the COI files ready to be used with the classiier (Porter & Hajibabaei, 2018 Sci Rep) available at https://github.com/terrimporter/CO1Classifier/releases .  This step can take a while depending on the filesize so I like to submit this as a job on its own or using Linux screen so that I can safely detach the session while it is running.  I like to map read number from the ESV/OTU table to the taxonomic assignments using the add_abundance_to_rdp_out4.plx script.
+I make taxonomic assignments using the RDP Classifier (Wang et al., 2007) available at https://sourceforge.net/projects/rdp-classifier/ .  I use this with the COI files ready to be used with the classiier (Porter & Hajibabaei, 2018 Sci Rep) available at https://github.com/terrimporter/CO1Classifier/releases .  This step can take a while depending on the filesize so I like to submit this as a job on its own or using Linux screen so that I can safely detach the session while it is running.  I like to map read number from the ESV/OTU table to the taxonomic assignments using the add_abundance_to_rdp_out4.plx script.  Then I append the marker name to the start of each OTU id using vi (replace MARKER with the name of your marker).
 
 ```linux
 java -Xmx8g -jar /path/to/rdp_classifier_2.12/dist/classifier.jar classify -t /path/to/rRNAClassifier.properties -o cat.denoised.out cat.denoised
 perl add_abundance_to_rdp_out4.plx cat.denoised.table cat.denoised.out
+vi -c "%s/^/MARKER_/g" -c "wq" rdp.cat.updated.csv
 ```
 
 I like to use the MINIMUM recommended cutoffs for bootstrap support values according to fragment size and rank described in Porter & Hajibabaei, 2018 Sci Rep.  Use your own judgement as to whether these should be increased according to how well represented your target taxa are in the reference set.  This can be determined by exploring the original reference files used to train the classifier that is also available at https://github.com/terrimporter/CO1Classifier/releases .
