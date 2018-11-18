@@ -85,7 +85,7 @@ I denoise the reads using USEARCH v10.0.240 with the UNOISE3 algorithm (Edgar, 2
 usearch10 -unoise3 cat.uniques -zotus cat.denoised -minsize 3 > log
 vi -c "%s/>Zotu/>Otu/g" -c "wq" cat.denoised
 stats_denoised
-vsearch  --usearch_global cat.fasta --db cat.denoised --id 1.0 --otutabout cat.fasta.table --threads 20
+vsearch  --usearch_global cat.fasta.gz --db cat.denoised --id 1.0 --otutabout cat.fasta.table --threads 20
 ```
 
 ## Part VII - Taxonomic assignment
