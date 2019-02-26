@@ -67,7 +67,7 @@ fasta_gz_stats gz > Rtrimmed.stats
 
 ## Part V - Dereplication
 
-I prepare the files for dereplication by adding sample names parsed from the filenames to the fasta headers using the rename_all_fastas command that calls the run_rename_fasta.sh.  Therein the rename_fasta command calls the rename_fasta_gzip.plx script.  The results are concatenated and compressed.  The outfile is cat.fasta.gz .  I change all dashes with underscores in the fasta files using vi.  This large file is dereplicated with VSEARCHv2.11.0 (Rognes et al., 2016) available at https://github.com/torognes/vsearch .  I use the default settings with the --sizein --sizeout flags to track the number of reads in each cluster.  I get read stats on the unique sequences using the stats_uniques command that calls the run_fastastats_parallel_uniques.sh script.  Therein the stats command links to fasta_stats_parallel.plx .  I count the total number of reads that were processed using the read_count_uniques command that calls the get_read_counts_uniques_3.sh script.
+I prepare the files for dereplication by adding sample names parsed from the filenames to the fasta headers using the rename_all_fastas command that calls the run_rename_fasta.sh.  Therein the rename_fasta command calls the rename_fasta_gzip.plx script.  The results are concatenated and compressed.  The outfile is cat.fasta.gz .  I change all dashes with underscores in the fasta files using vi.  Note that with really large files, you may need to split the file into pieces before running this step (see below).  This large file is dereplicated with VSEARCHv2.11.0 (Rognes et al., 2016) available at https://github.com/torognes/vsearch .  I use the default settings with the --sizein --sizeout flags to track the number of reads in each cluster.  I get read stats on the unique sequences using the stats_uniques command that calls the run_fastastats_parallel_uniques.sh script.  Therein the stats command links to fasta_stats_parallel.plx .  I count the total number of reads that were processed using the read_count_uniques command that calls the get_read_counts_uniques_3.sh script.
 
 ```linux
 rename_all_fastas Rtrimmed.fasta.gz
@@ -125,6 +125,29 @@ Instead of continually traversing nested directories to get to files, I create s
 ```linux
 ln -s /path/to/target/directory shortcutName
 ln -s /path/to/script/script.sh commandName
+```
+
+### Split large files into smaller ones
+
+It is easy to use vi to do a simple search and replace such as replacing all dashes with underscores.  When the file size is really large though, you may need to split it up into a few smaller sized files, run your search and replace in vi, then concatenate the results back together.
+
+```linux
+
+# Split a large file into 2 million line chunks
+zcat cat.fasta.gz | split -l 2000000
+
+# Use vi to replace all dashes with underscores
+ls | grep x | parallel -j 10 "vi -c "%s/-/_/g" -c "wq" {}"
+
+# Concatenate the results back into a single file
+ls | grep x | parallel -j 1 "cat {} >> cat.fasta2"
+
+# Compress the file and use it for vsearch dereplication
+gzip cat.fasta2
+
+# Remove the old partial files that are no longer needed
+rm x*
+
 ```
 
 ## References
