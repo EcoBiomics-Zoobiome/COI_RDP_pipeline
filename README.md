@@ -1,5 +1,7 @@
 # README
 
+**See https://github.com/Hajibabaei-Lab/SCVUC_COI_metabarcode_pipeline for the latest updates to this pipeline.**
+
 This repository outlines how COI metabarcodes are processed by Teresita M. Porter. **SCVUC** refers to the programs, algorithms, and reference datasets used in this data flow: **S**EQPREP, **C**UTADAPT, **V**SEARCH, **U**NOISE, **C**OI classifier. 
 
 The pipeline begins with raw Illumina MiSeq fastq.gz files with paired-end reads.  Reads are paired.  Primers are trimmed.  Reads are dereplicated and denoised producing a reference set of exact sequence variants (ESVs).  These ESVs are taxonomically assigned using the CO1 Classifier (Porter & Hajibabaei, 2018 Sci Rep).
