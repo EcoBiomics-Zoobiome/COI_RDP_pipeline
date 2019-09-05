@@ -6,7 +6,7 @@ This repository outlines how COI metabarcodes are processed by Teresita M. Porte
 
 The pipeline begins with raw Illumina MiSeq fastq.gz files with paired-end reads.  Reads are paired.  Primers are trimmed.  Reads are dereplicated and denoised producing a reference set of exact sequence variants (ESVs).  These ESVs are taxonomically assigned using the CO1 Classifier (Porter & Hajibabaei, 2018 Sci Rep).
 
-This data flow has been developed in a modular fashion for easier updating as methods change and improve over time.  It will be updated on a regular basis so check for the latest version at https://github.com/EcoBiomics-Zoobiome/SCVUC_COI_metabarcode_pipeline/releases .
+This pipeline will be updated on a regular basis so check for the latest version at https://github.com/Hajibabaei-Lab/SCVUC_COI_metabarcode_pipeline/releases .
 
 ## How to cite
 
